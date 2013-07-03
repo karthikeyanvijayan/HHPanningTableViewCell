@@ -533,7 +533,16 @@ static HHPanningTableViewCellDirection HHOppositeDirection(HHPanningTableViewCel
         else {
             [self setDrawerRevealed:drawerRevealed direction:direction animated:YES];
         }
-
+        
+        
+        BOOL isDirectionDelegateTrigger = [delegate respondsToSelector:@selector(panningTableViewCell:withDirection:)];
+        
+        if (isDirectionDelegateTrigger && drawerRevealed) {
+            if ([delegate respondsToSelector:@selector(panningTableViewCell:withDirection:)]) {
+                [delegate panningTableViewCell:self withDirection:direction];
+            }
+        }
+       
 		self.panning = NO;
 	}
 }
@@ -624,24 +633,24 @@ static HHPanningTableViewCellDirection HHOppositeDirection(HHPanningTableViewCel
 
 - (void)updateShadowFrame
 {
-	UIView* cellView = self;
-	CGRect cellBounds = [cellView bounds];
-	UIView* containerView = self.containerView;
-	UIView* shadowView = self.shadowView;
-	CGRect containerFrame = [containerView frame];
-	CGRect shadowFrame = containerFrame;
-
-	shadowFrame.size.width *= 2.0;
+    UIView* cellView = self;
+    CGRect cellBounds = [cellView bounds];
+    UIView* containerView = self.containerView;
+    UIView* shadowView = self.shadowView;
+    CGRect containerFrame = [containerView frame];
+    CGRect shadowFrame = containerFrame;
     
-	if (containerFrame.origin.x < cellBounds.origin.x) {
+    shadowFrame.size.width *= 2.0;
+    
+    if (containerFrame.origin.x < cellBounds.origin.x) {
         shadowFrame.origin.x = containerFrame.origin.x + containerFrame.size.width;
-	}
-	else {
-	else if (containerFrame.origin.x > cellBounds.origin.x) {
+    }
+    else {
         shadowFrame.origin.x = containerFrame.origin.x - shadowFrame.size.width;
-	}
+    }
     
-	[shadowView setFrame:shadowFrame];
+    [shadowView setFrame:shadowFrame];
+
 }
 
 @end

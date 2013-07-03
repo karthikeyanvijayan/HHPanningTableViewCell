@@ -113,6 +113,8 @@
 		
 		cell.drawerView = drawerView;		
 	}
+    
+     cell.delegate = self;
 
     if (directionMask < 3) {
         cell.directionMask = directionMask;
@@ -120,9 +122,6 @@
     else {
         cell.directionMask = HHPanningTableViewCellDirectionLeft + HHPanningTableViewCellDirectionRight;
 
-        if (directionMask == 4) {
-            cell.delegate = self;
-        }
     }
 
 	cell.textLabel.text = [self.rowTitles objectAtIndex:directionMask];
@@ -155,6 +154,20 @@
 
 #pragma mark -
 #pragma mark HHPanningTableViewCellDelegate
+
+-(void) panningTableViewCell:(HHPanningTableViewCell *)cell withDirection:(HHPanningTableViewCellDirection)direction {
+    
+    NSLog(@"Direction : %@",direction == HHPanningTableViewCellDirectionLeft ? @"Left" : @"Right");
+    NSLog(@"Cell : %@",cell);
+    
+    UIAlertView *directionAlert = [[UIAlertView alloc] initWithTitle:@"Direction"
+                                                       message:direction == HHPanningTableViewCellDirectionLeft ? @"Left" : @"Right"
+                                                      delegate:self
+                                             cancelButtonTitle:@"Ok"
+                                             otherButtonTitles:nil];
+    [directionAlert show];
+    
+}
 
 - (void)panningTableViewCellDidTrigger:(HHPanningTableViewCell *)cell inDirection:(HHPanningTableViewCellDirection)direction
 {

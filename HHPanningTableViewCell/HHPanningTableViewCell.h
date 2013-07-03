@@ -67,4 +67,8 @@ typedef enum {
 // If implemented this this will be triggered instead of fully revealing
 - (void)panningTableViewCell:(HHPanningTableViewCell *)cell didTriggerWithDirection:(HHPanningTableViewCellDirection)direction;
 
+// If implemented this will be triggered whether user is revealed left or right side
+-(void) panningTableViewCell: (HHPanningTableViewCell *) cell withDirection : (HHPanningTableViewCellDirection)direction;
+
+
 @end
